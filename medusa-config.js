@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const path = require("path");
 
 let ENV_FILE_NAME = "";
 switch (process.env.NODE_ENV) {
@@ -18,8 +19,11 @@ switch (process.env.NODE_ENV) {
 }
 
 try {
-  dotenv.config({ path: process.cwd() + "/" + ENV_FILE_NAME });
-} catch (e) {}
+  const envFilePath = path.resolve(__dirname, ENV_FILE_NAME);
+  dotenv.config({ path: envFilePath });
+} catch (e) {
+  console.error("Error loading .env file:", e);
+}
 
 const ADMIN_CORS = process.env.ADMIN_CORS;
 const STORE_CORS = process.env.STORE_CORS;
